@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.http import JsonResponse
 from rest_framework import status
-from .pagination import PostLimitOffsetPagination
+from .pagination import PostLimitOffsetPagination,PostPageNumberPagination
 
 class CreateView(generics.ListCreateAPIView):
     queryset = Bucketlist.objects.all()
@@ -30,12 +30,11 @@ class ReportView(APIView):
     
     def get(self, request, *args, **kwargs):
 
-        pagination_class = PostLimitOffsetPagination
+        pagination_class = PostPageNumberPagination
         paginator = pagination_class()
 
         queryset = Report.objects.all()
         page = paginator.paginate_queryset(queryset, request)
-
 
         serializer = ReportSerializer(queryset,  many=True)
         return paginator.get_paginated_response(serializer.data)
