@@ -27,28 +27,20 @@ class ReportTag(models.Model):
     date_created = models.DateTimeField(auto_now_add = True)
     name = models.CharField(max_length=100)
     
-
-# class ReportTag(models.Model):
-#     created_by = models.ForeignKey('auth.User',
-#         related_name='created_by',
-#         on_delete=models.CASCADE
-#     )
-#     name = models.CharField(max_lenght=100)
-
-
 class Report(models.Model):
     reporter = models.ForeignKey('auth.User',
         related_name='report',
         on_delete=models.CASCADE
     )
-    # tag = models.ForeignKey(ReportTag, on_delete=models.PROTECT)
+    tag = models.ManyToManyField(ReportTag, related_name='report_tags')
     lat = models.DecimalField(max_digits=9, decimal_places=6)
     lon = models.DecimalField(max_digits=9, decimal_places=6)
     comment = models.TextField()    
     photo = models.FileField(blank=False, null=False)
     date_created = models.DateTimeField(auto_now_add = True)
 
-
+    def __unicode__(self):
+        return '%s: %s' % (self.photo, self.date_created)
 class ReportRating(models.Model):
     reporter = models.ForeignKey('auth.User',
         related_name='reportrating',
@@ -75,7 +67,7 @@ class ReportRating(models.Model):
     date_created = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
-        return "{}".format(self.lat)
+        return self.lat
 
 # This receiver handles token creation immediately a new user is created.
 @receiver(post_save, sender=User)

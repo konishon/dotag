@@ -7,6 +7,12 @@ class BucketlistSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'date_created', 'date_modified')
         read_only_fields = ('date_created', 'date_modified')
 
+
+class ReportTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReportTag
+        fields = ('name','id')    
+
 class ReportRatingSerializer(serializers.ModelSerializer):
 
     reporter = serializers.ReadOnlyField(source='reporter.username')
@@ -17,6 +23,8 @@ class ReportRatingSerializer(serializers.ModelSerializer):
 
 class ReportSerializer(serializers.ModelSerializer):
     reporter = serializers.ReadOnlyField(source='reporter.username')
+    tag  = ReportTagSerializer(read_only=True, many=True)
+    
     class Meta:
         model = Report
-        fields = ('reporter','lat', 'lon','photo')        
+        fields = ('reporter','lat', 'lon','photo','tag')        

@@ -4,7 +4,7 @@ from rest_framework import generics, permissions
 from .permissions import IsOwner
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import BucketlistSerializer, ReportRatingSerializer, ReportSerializer
+from .serializers import *
 from .models import *
 from django.contrib.auth import login
 from social_django.utils import psa

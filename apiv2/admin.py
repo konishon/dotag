@@ -6,3 +6,5 @@ from .models import *
 
 # Register your models here.
 admin.site.register(ReportRating)
+admin.site.register(ReportTag)
+admin.site.register(Report)
