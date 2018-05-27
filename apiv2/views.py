@@ -4,13 +4,18 @@ from rest_framework import generics, permissions
 from .permissions import IsOwner
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import BucketlistSerializer, ReportRatingSerializer
+from .serializers import BucketlistSerializer, ReportRatingSerializer, ReportSerializer
 from .models import Bucketlist, ReportRating
 from django.contrib.auth import login
 from social_django.utils import psa
 from social_core.backends.facebook import FacebookOAuth2
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+
+
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
+
 from django.http import JsonResponse
 from rest_framework import status
 
@@ -20,6 +25,18 @@ class CreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save()
+
+
+class ReportView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        file_serializer = ReportSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save(reporter=self.request.user)
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)    
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
 
 class ReportRatingCreateView(generics.ListCreateAPIView):
     queryset = ReportRating.objects.all()

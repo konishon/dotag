@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Bucketlist, ReportRating
+from .models import *
 
 class BucketlistSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,8 +10,13 @@ class BucketlistSerializer(serializers.ModelSerializer):
 class ReportRatingSerializer(serializers.ModelSerializer):
 
     reporter = serializers.ReadOnlyField(source='reporter.username')
-
     class Meta:
         model = ReportRating
         fields = ('reporter','id','lat','lon','land_pollution_rating','air_pollution_rating','sound_pollution_rating','water_pollution_rating')     
         # read_only_fields = ('date_created','id','lat','lon','land_pollution_rating','air_pollution_rating','sound_pollution_rating','water_pollution_rating')
+
+class ReportSerializer(serializers.ModelSerializer):
+    reporter = serializers.ReadOnlyField(source='reporter.username')
+    class Meta:
+        model = Report
+        fields = ('reporter','lat', 'lon','photo')        

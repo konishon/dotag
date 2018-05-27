@@ -33,11 +33,11 @@ class Report(models.Model):
         related_name='report',
         on_delete=models.CASCADE
     )
-    tag = models.ForeignKey(ReportTag, on_delete=models.PROTECT)
+    # tag = models.ForeignKey(ReportTag, on_delete=models.PROTECT)
     lat = models.DecimalField(max_digits=9, decimal_places=6)
     lon = models.DecimalField(max_digits=9, decimal_places=6)
     comment = models.TextField()    
-    document = models.FileField(upload_to='report/media')
+    photo = models.FileField(blank=False, null=False)
     date_created = models.DateTimeField(auto_now_add = True)
 
 
