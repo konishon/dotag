@@ -28,6 +28,14 @@ class ReportTag(models.Model):
     name = models.CharField(max_length=100)
     
 
+# class ReportTag(models.Model):
+#     created_by = models.ForeignKey('auth.User',
+#         related_name='created_by',
+#         on_delete=models.CASCADE
+#     )
+#     name = models.CharField(max_lenght=100)
+
+
 class Report(models.Model):
     reporter = models.ForeignKey('auth.User',
         related_name='report',

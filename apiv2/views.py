@@ -5,7 +5,7 @@ from .permissions import IsOwner
 from django.shortcuts import render
 from rest_framework import generics
 from .serializers import BucketlistSerializer, ReportRatingSerializer, ReportSerializer
-from .models import Bucketlist, ReportRating
+from .models import *
 from django.contrib.auth import login
 from social_django.utils import psa
 from social_core.backends.facebook import FacebookOAuth2
@@ -29,6 +29,11 @@ class CreateView(generics.ListCreateAPIView):
 
 class ReportView(APIView):
     parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, *args, **kwargs):
+        queryset = Report.objects.all()
+        serializer = ReportSerializer(queryset,  many=True)
+        return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         file_serializer = ReportSerializer(data=request.data)
