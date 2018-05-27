@@ -19,6 +19,28 @@ class Bucketlist(models.Model):
         return "{}".format(self.name)
 
 
+class ReportTag(models.Model):
+    created_by = models.ForeignKey('auth.User',
+        related_name='tag_created_by',
+        on_delete=models.CASCADE
+    )
+    date_created = models.DateTimeField(auto_now_add = True)
+    name = models.CharField(max_length=100)
+    
+
+class Report(models.Model):
+    reporter = models.ForeignKey('auth.User',
+        related_name='report',
+        on_delete=models.CASCADE
+    )
+    tag = models.ForeignKey(ReportTag, on_delete=models.PROTECT)
+    lat = models.DecimalField(max_digits=9, decimal_places=6)
+    lon = models.DecimalField(max_digits=9, decimal_places=6)
+    comment = models.TextField()    
+    document = models.FileField(upload_to='report/media')
+    date_created = models.DateTimeField(auto_now_add = True)
+
+
 class ReportRating(models.Model):
     reporter = models.ForeignKey('auth.User',
         related_name='reportrating',
