@@ -26,7 +26,10 @@ class ReportTag(models.Model):
     )
     date_created = models.DateTimeField(auto_now_add = True)
     name = models.CharField(max_length=100)
-    
+
+    def __unicode__(self):
+        return self.name
+
 class Report(models.Model):
     reporter = models.ForeignKey('auth.User',
         related_name='report',
@@ -40,7 +43,7 @@ class Report(models.Model):
     date_created = models.DateTimeField(auto_now_add = True)
 
     def __unicode__(self):
-        return '%s: %s' % (self.photo, self.date_created)
+        return str(self.id)
 class ReportRating(models.Model):
     reporter = models.ForeignKey('auth.User',
         related_name='reportrating',

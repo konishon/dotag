@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+import ast
 
 class BucketlistSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,7 +25,16 @@ class ReportRatingSerializer(serializers.ModelSerializer):
 class ReportSerializer(serializers.ModelSerializer):
     reporter = serializers.ReadOnlyField(source='reporter.username')
     tag  = ReportTagSerializer(read_only=True, many=True)
-    
+
+    def create(self, validated_data):
+        tags =validated_data.pop('tag')
+        report=Report.objects.create(**validated_data)
+        report.save()
+        for tag in ast.literal_eval(tags):
+             tag = ReportTag.objects.get(id=tag)
+             report.tag.add(tag)
+        return report     
+
     class Meta:
         model = Report
-        fields = ('reporter','lat', 'lon','photo','tag')        
+        fields = ('reporter','lat', 'lon','photo','comment','tag')        

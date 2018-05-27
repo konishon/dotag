@@ -17,6 +17,8 @@ from django.http import JsonResponse
 from rest_framework import status
 from .pagination import PostLimitOffsetPagination,PostPageNumberPagination
 
+from django.shortcuts import  get_object_or_404
+
 class CreateView(generics.ListCreateAPIView):
     queryset = Bucketlist.objects.all()
     serializer_class = BucketlistSerializer
@@ -40,9 +42,12 @@ class ReportView(APIView):
         return paginator.get_paginated_response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        file_serializer = ReportSerializer(data=request.data)
+       
+        file_serializer = ReportSerializer(data=request.data)  
+        tag_pk = request.data.get('tag','')
+
         if file_serializer.is_valid():
-            file_serializer.save(reporter=self.request.user)
+            file_serializer.save(reporter=self.request.user,tag=tag_pk)
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)    
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
