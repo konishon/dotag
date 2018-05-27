@@ -11,13 +11,11 @@ from social_django.utils import psa
 from social_core.backends.facebook import FacebookOAuth2
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-
-
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
-
 from django.http import JsonResponse
 from rest_framework import status
+from .pagination import PostLimitOffsetPagination
 
 class CreateView(generics.ListCreateAPIView):
     queryset = Bucketlist.objects.all()
@@ -29,11 +27,18 @@ class CreateView(generics.ListCreateAPIView):
 
 class ReportView(APIView):
     parser_classes = (MultiPartParser, FormParser)
-
+    
     def get(self, request, *args, **kwargs):
+
+        pagination_class = PostLimitOffsetPagination
+        paginator = pagination_class()
+
         queryset = Report.objects.all()
+        page = paginator.paginate_queryset(queryset, request)
+
+
         serializer = ReportSerializer(queryset,  many=True)
-        return Response(serializer.data)
+        return paginator.get_paginated_response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         file_serializer = ReportSerializer(data=request.data)
