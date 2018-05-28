@@ -27,7 +27,7 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['id', 'email']
 APPSECRET_PROOF = False
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 ALLOWED_HOSTS = []
 
 
