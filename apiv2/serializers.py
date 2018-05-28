@@ -37,4 +37,4 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ('reporter','lat', 'lon','photo','comment','tag')        
+        fields = ('id','reporter','lat', 'lon','photo','comment','tag')        
