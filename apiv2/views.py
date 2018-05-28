@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from rest_framework import generics, permissions
 from .permissions import IsOwner
 from django.shortcuts import render
+from django.views import View
 from rest_framework import generics
 from .serializers import *
 from .models import *
@@ -27,6 +28,9 @@ class CreateView(generics.ListCreateAPIView):
         serializer.save()
 
 
+class HomeView(View):
+    def get(self, request,*args,**kwargs):
+        return render(request,"apiv2/home.html",{})
 class ReportView(APIView):
     parser_classes = (MultiPartParser, FormParser)
     
