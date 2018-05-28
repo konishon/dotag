@@ -26,9 +26,9 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '561af0ce54a0c98af6bb2b538642fdce'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['id', 'email']
 APPSECRET_PROOF = False
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['10.0.2.2','localhost']
+ALLOWED_HOSTS = ['10.0.2.2','localhost','dotag.naxa.com.np']
 
 
 # Application definition
