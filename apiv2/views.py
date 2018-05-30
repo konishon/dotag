@@ -31,6 +31,14 @@ class CreateView(generics.ListCreateAPIView):
 class HomeView(View):
     def get(self, request,*args,**kwargs):
         return render(request,"apiv2/home.html",{})
+
+
+class ReportTagsView(APIView):
+    def get(self, request, *args,**kwargs):
+        queryset = ReportTag.objects.all();
+        serializer = ReportTagSerializer(queryset, many=True)
+        return Response(serializer.data);
+
 class ReportView(APIView):
     parser_classes = (MultiPartParser, FormParser)
     

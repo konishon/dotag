@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import CreateView, ReportRatingCreateView, register_by_access_token, ReportView, HomeView
+from .views import CreateView, ReportRatingCreateView, register_by_access_token, ReportView, HomeView, ReportTagsView
 from rest_framework.authtoken.views import obtain_auth_token
 
 
@@ -10,7 +10,8 @@ urlpatterns = {
     url(r'^api/rating/$', ReportRatingCreateView.as_view(),name="rating-upload"),
     url(r'^api/get-token/', obtain_auth_token),
     url(r'^api/fbtest/(?P<backend>[^/]+)/', register_by_access_token),
-    url(r'^report/$', ReportView.as_view(), name='report-upload'),
+    url(r'^api/report/$', ReportView.as_view(), name='report-upload'),
+    url(r'^api/report-tags/$', ReportTagsView.as_view(), name='report-tags'),
     url('', include('social_django.urls', namespace='social'))
 }
 
