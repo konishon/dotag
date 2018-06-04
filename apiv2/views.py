@@ -17,6 +17,8 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.http import JsonResponse
 from rest_framework import status
 from .pagination import PostLimitOffsetPagination,PostPageNumberPagination
+from rest_framework.response import Response
+from django.contrib.auth.models import User
 
 from django.shortcuts import  get_object_or_404
 
@@ -98,3 +100,15 @@ def register_by_access_token(request, backend):
             return JsonResponse({'status': 401,'data':'Could not authenticate with facebook server. Access key Invalid.'}, status=status.HTTP_401_UNAUTHORIZED)
     except:
         return JsonResponse({'status':400 ,'data': 'Could not authenticate with facebook server.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserCreate(APIView):
+    permission_classes = []
+    def post(self, request, format='json'):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
