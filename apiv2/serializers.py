@@ -40,7 +40,7 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ('id','reporter','lat', 'lon','photo','comment','tag')        
+        fields = ('id','date_created','reporter','lat', 'lon','photo','comment','tag')        
 
 
 class UserSerializer(serializers.ModelSerializer):
