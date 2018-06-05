@@ -49,7 +49,7 @@ class ReportView(APIView):
         pagination_class = PostPageNumberPagination
         paginator = pagination_class()
 
-        queryset = Report.objects.all().order_by('date_created')
+        queryset = Report.objects.all().order_by('-id')
         page = paginator.paginate_queryset(queryset, request)
 
         serializer = ReportSerializer(queryset,  many=True)
